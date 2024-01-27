@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.12;
 
-interface IST20 {
+interface IBEP20 {
     function totalSupply() external view returns (uint256);
     function balanceOf(address account) external view returns (uint256);
     function transfer(address recipient, uint256 amount) external returns (bool);
@@ -75,7 +75,7 @@ contract Ownable {
 
 contract Sale_Contract is Ownable { // Inherit from Ownable
     using SafeMath for uint256;
-    IST20 public token;
+    IBEP20 public token;
     uint256 public rate;
     uint256 public weiRaised;
     uint256 public weiMaxPurchaseBnb;
@@ -91,10 +91,10 @@ contract Sale_Contract is Ownable { // Inherit from Ownable
     }
 
   
-  constructor(uint256 _rate, IST20 _token, uint256 _max) public {
+  constructor(uint256 _rate, IBEP20 _token, uint256 _max) public {
     require(_rate > 0);
     require(_max > 0);
-    require(_token != IST20(address(0)));
+    require(_token != IBEP20(address(0)));
     rate = _rate;
     token = _token;
     weiMaxPurchaseBnb = _max;
@@ -155,6 +155,6 @@ contract Sale_Contract is Ownable { // Inherit from Ownable
   }
   function withdrawTokens(address tokenAddress, uint256 tokens) external {
     require(admin == msg.sender, "caller is not the owner");
-    IST20(tokenAddress).transfer(admin, tokens);
+    IBEP20(tokenAddress).transfer(admin, tokens);
   }
 }
